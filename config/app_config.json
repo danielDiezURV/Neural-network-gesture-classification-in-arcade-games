@@ -1,0 +1,18 @@
+{
+    "HAND_GESTURE_CONFIG":
+    {   
+        "MAX_HANDS": 2,
+        "MIN_DETECTION_CONFIDENCE": 0.7,
+        "DETECTION_RATE": 0.05,
+        "DEFAULT_KEY_BINDINGS": "data/key_bindings_default.json"
+    },
+    "NEURAL_NETWORK_CONFIG":
+    {
+        "MODEL_PATH": "models/gesture_model.h5",
+        "DATASET_PATH": "data/gestures_dataset.csv",
+        "EPOCHS": 200,
+        "BATCH_SIZE": 100,
+        "TEST_SIZE": 0.2,
+        "LEARNING_RATE": 0.001
+    }
+}

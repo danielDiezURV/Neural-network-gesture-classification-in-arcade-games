@@ -1,0 +1,7 @@
+tensorflow
+opencv-python
+mediapipe
+numpy
+pyautogui
+python-dotenv
+numpy
