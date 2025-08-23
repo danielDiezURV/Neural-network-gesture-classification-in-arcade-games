@@ -1,4 +1,10 @@
 {
+    "DATA_GENERATION_CONFIG":
+    {
+        "GESTURE_FOLDER": "data/gestures",
+        "OUTPUT_FILE":"data/gestures_dataset.csv",
+        "KEY_BINDING_OUTPUT_FILE":"config/key_bindings_default.json"
+    },
     "HAND_GESTURE_CONFIG":
     {   
         "MAX_HANDS": 2,

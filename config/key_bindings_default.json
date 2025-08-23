@@ -1,47 +1,47 @@
 {
   "0": {
     "gesture": "fist",
-    "keys": ["shift"],
-    "behavior": "press"
+    "keys": [],
+    "behavior": ""
   },
   "1": {
     "gesture": "hand_back",
-    "keys": ["left"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   },
   "2": {
     "gesture": "hand_right",
-    "keys": ["right"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   },
   "3": {
     "gesture": "hand_straight",
     "keys": [],
-    "behavior": "hold"
+    "behavior": ""
   },
   "4": {
     "gesture": "index_back",
-    "keys": ["left", "shift"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   },
   "5": {
     "gesture": "index_right",
-    "keys": ["right", "shift"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   },
   "6": {
     "gesture": "nice",
     "keys": [],
-    "behavior": "hold"
+    "behavior": ""
   },
   "7": {
     "gesture": "palm_down",
-    "keys": ["down"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   },
   "8": {
     "gesture": "palm_up",
-    "keys": ["up"],
-    "behavior": "hold"
+    "keys": [],
+    "behavior": ""
   }
 }
