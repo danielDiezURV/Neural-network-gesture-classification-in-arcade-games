@@ -1,5 +1,7 @@
-/.DS_Store
-/.venv
-/.vscode
-/__pycache__
+.DS_Store
+.vscode/
+.venv/
+__pycache__/
+*.pyc
 data/gestures/
+
