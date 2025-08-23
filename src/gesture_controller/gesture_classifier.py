@@ -1,9 +1,9 @@
 import numpy as np
 import tensorflow as tf
+from src.gesture_controller.app_config import AppConfig
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import Adam 
-from config.app_config import AppConfig
 import os
 
 class GestureClassifier:

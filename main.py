@@ -1,19 +1,17 @@
 import cv2
 import time
 import json
-from gesture_detector import GestureDetector
-from data_preprocessor import DataPreprocessor
-from gesture_classifier import GestureClassifier
-from keyboard_adapter import KeyboardAdapter
-from config.app_config import AppConfig
+from src.gesture_controller.gesture_detector import GestureDetector
+from src.gesture_controller.data_preprocessor import DataPreprocessor
+from src.gesture_controller.gesture_classifier import GestureClassifier
+from src.gesture_controller.keyboard_adapter import KeyboardAdapter
+from src.gesture_controller.app_config import AppConfig
 import os
 
 def main():
-    # Configuration
-    KEY_BINDINGS_CONFIG = "data/key_bindings_default.json"
     
     # Load configuration
-    app_config = AppConfig(KEY_BINDINGS_CONFIG)
+    app_config = AppConfig()
     gesture_config = app_config.get_hand_gesture_config()
     max_hands = gesture_config.get('MAX_HANDS')
     min_detection_confidence = gesture_config.get('MIN_DETECTION_CONFIDENCE')
