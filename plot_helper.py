@@ -90,9 +90,8 @@ class PlotHelper:
 
         for act, color in palette.items():
             sub = agg[agg['ACTIVATION'] == act]
-            if not sub.empty:
-                ax.hlines(y=sub['ypos'], xmin=x_baseline, xmax=sub['val_loss'], color=color, alpha=0.35, linewidth=2)
-                ax.scatter(sub['val_loss'], sub['ypos'], s=60, c=color, edgecolors='k', linewidths=0.4, alpha=0.95, label=str(act), zorder=3)
+            ax.hlines(y=sub['ypos'], xmin=x_baseline, xmax=sub['val_loss'], color=color, alpha=0.35, linewidth=2)
+            ax.scatter(sub['val_loss'], sub['ypos'], s=60, c=color, edgecolors='k', linewidths=0.4, alpha=0.95, label=str(act), zorder=3)
 
         ax.set_xscale('log')
         ax.invert_xaxis()
@@ -139,13 +138,6 @@ class PlotHelper:
             # Filter out rows where the parameter is missing
             sub_df = df.dropna(subset=['val_loss', col_name]).copy()
 
-            if sub_df.empty:
-                ax.text(0.5, 0.5, f'No data for {param_name}', ha='center', va='center')
-                ax.axis('off')
-                continue
-
-            # **CRITICAL FIX**: Enforce a consistent string type on the column before grouping.
-            # This prevents treating numbers and their string representations (e.g., 0.2 and '0.2')
             # as separate categories, which was the root cause of the plotting error.
             sub_df[col_name] = sub_df[col_name].astype(str)
 
@@ -192,9 +184,6 @@ class PlotHelper:
     def plot_val_loss_in_epochs(self, df_winner):
         history = self._parse_history(df_winner['history'])
         curve = history.get('val_loss')
-        if not curve:
-            print("Metric 'val_loss' not found in history.")
-            return
 
         curve = [float(v) for v in curve]
         epochs = np.arange(1, len(curve) + 1)
@@ -229,9 +218,6 @@ class PlotHelper:
     def plot_val_accuracy_in_epochs(self, df_winner):
         history = self._parse_history(df_winner['history'])
         curve = history.get('val_accuracy')
-        if not curve:
-            print("Metric 'val_accuracy' not found in history.")
-            return
 
         curve = [float(v) for v in curve]
         epochs = np.arange(1, len(curve) + 1)
