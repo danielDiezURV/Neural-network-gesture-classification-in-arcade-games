@@ -9,10 +9,15 @@
     "NEURAL_NETWORK_CONFIG":
     {
         "MODEL_PATH": "models/gesture_model.h5",
-        "DATASET_PATH": "data/gestures_dataset.csv",
-        "EPOCHS": 200,
-        "BATCH_SIZE": 100,
-        "TEST_SIZE": 0.2,
-        "LEARNING_RATE": 0.001
+        "DATASET_PATH": "data/gestures_dataset.csv"
+    },
+    "HYPERPARAMETER_CONFIG": 
+    {
+        "DENSE_LAYERS": [[128, 64, 32], [256, 128, 64]],
+        "ACTIVATION": ["relu", "tanh", "sigmoid"],
+        "DROPOUT_RATE": [0.2, 0.4],
+        "LEARNING_RATE": [0.01, 0.001],
+        "BATCH_SIZE": [32, 64],
+        "EPOCHS": [100]
     }
 }

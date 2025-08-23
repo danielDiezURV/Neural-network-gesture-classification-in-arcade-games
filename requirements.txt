@@ -4,4 +4,7 @@ mediapipe
 numpy
 pyautogui
 python-dotenv
-numpy
+matplotlib
+pandas
+scikit-learn
+seaborn

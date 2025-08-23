@@ -1,23 +1,29 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import Adam 
 from config.app_config import AppConfig
 import os
 
 class GestureClassifier:
 
-    def __init__(self, num_classes=None, input_size=None):
+    def __init__(self, num_classes=None, input_size=None, hyperparams=None):
         self.num_classes = num_classes
         self.input_size = input_size
-        self.model = None
-
+        
         nn_config = AppConfig().get_neural_network_config()
-        self.learning_rate = nn_config.get('LEARNING_RATE')
-        self.epoch = nn_config.get('EPOCHS')
-        self.batch_size = nn_config.get('BATCH_SIZE')
         self.model_path = nn_config.get('MODEL_PATH')
+
+        if hyperparams:
+            self.model = self._create_model(
+                layers=hyperparams['DENSE_LAYERS'],
+                activation=hyperparams['ACTIVATION'],
+                dropout_rate=hyperparams['DROPOUT_RATE'],
+                learning_rate=hyperparams['LEARNING_RATE']
+            )
+        else:
+            self.model = None
         
 
     # Creates the neural network model architecture with sparse categorical crossentropy.
@@ -29,19 +35,20 @@ class GestureClassifier:
     #
     # Returns:
     #     Sequential: A compiled Keras sequential model ready for training.
-    def _create_model(self):
-        model = Sequential([
-            Dense(128, activation='relu', input_shape=(self.input_size,)),
-            Dropout(0.3),
-            Dense(64, activation='relu'),
-            Dropout(0.3),
-            Dense(32, activation='relu'),
-            Dropout(0.2),
-            Dense(self.num_classes, activation='softmax')
-        ])
+    def _create_model(self, layers, activation, dropout_rate, learning_rate):
+        model = Sequential()
+        # Use an explicit Input layer to avoid passing input_shape to Dense
+        model.add(Input(shape=(self.input_size,)))
+        model.add(Dense(layers[0], activation=activation))
+        
+        for units in layers[1:]:
+            model.add(Dense(units, activation=activation))
+            model.add(Dropout(dropout_rate))
+
+        model.add(Dense(self.num_classes, activation='softmax'))
         
         model.compile(
-            optimizer=Adam(learning_rate=self.learning_rate),
+            optimizer=Adam(learning_rate=learning_rate),
             loss='sparse_categorical_crossentropy',
             metrics=['accuracy']
         )
@@ -76,36 +83,28 @@ class GestureClassifier:
     #     Y_train (np.ndarray): Training labels as 0-indexed integers.
     #     X_val (np.ndarray): Validation feature data with shape (n_samples, 60).
     #     Y_val (np.ndarray): Validation labels as 0-indexed integers.
-    #     epochs (int): Number of training epochs. Defaults to 50.
-    #     batch_size (int): Batch size for training. Defaults to 32.
     #
     # Returns:
     #     History: Keras training history object containing loss and accuracy metrics.
-    def train(self, X_train, Y_train, X_val, Y_val):
-        self.model = self._create_model()
-    
+    def train(self, X_train, Y_train, X_val, Y_val, batch_size, epochs):
         self.model.summary()
 
         os.makedirs(os.path.dirname(self.model_path), exist_ok=True)
 
         history = self.model.fit(
             X_train, Y_train,
-            batch_size=self.batch_size,
-            epochs=self.epoch,
+            batch_size=batch_size,
+            epochs=epochs,
             validation_data=(X_val, Y_val),
             verbose=1
         )
-
-        self.model.save(self.model_path)
-        print(f"Model saved to {self.model_path}")
-
-        train_loss, train_acc = self.model.evaluate(X_train, Y_train, verbose=0)
-        val_loss, val_acc = self.model.evaluate(X_val, Y_val, verbose=0)
+        _, train_acc = self.model.evaluate(X_train, Y_train, verbose=0)
+        _, val_acc = self.model.evaluate(X_val, Y_val, verbose=0)
         
         print(f"\nFinal Training Accuracy: {train_acc:.4f}")
         print(f"Final Validation Accuracy: {val_acc:.4f}")
         
-        return history
+        return self.model, history
 
     
     # Predicts gesture from preprocessed landmark vector.

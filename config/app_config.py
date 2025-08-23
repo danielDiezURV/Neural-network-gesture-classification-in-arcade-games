@@ -5,7 +5,7 @@ APP_CONFIG_PATH = 'config/app_config.json'
 
 class AppConfig:
     
-    def __init__(self, key_bindings_path='data/key_bindings.json'):
+    def __init__(self, key_bindings_path='data/key_bindings_default.json'):
         self.app_config_data = self._load_app_config()
         self.key_bindings_data = self._load_key_bindings(key_bindings_path)
 
@@ -80,3 +80,5 @@ class AppConfig:
     def get_neural_network_config(self):
         return self.get_app_config('NEURAL_NETWORK_CONFIG')
     
+    def get_hyperparameter_config(self):
+        return self.get_app_config('HYPERPARAMETER_CONFIG')
