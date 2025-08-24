@@ -1,0 +1,11 @@
+tensorflow
+opencv-python
+mediapipe
+numpy
+pyautogui
+python-dotenv
+matplotlib
+pandas
+scikit-learn
+seaborn
+sklearn

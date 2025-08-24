@@ -2,7 +2,8 @@
     "DATA_GENERATION_CONFIG":
     {
         "GESTURE_FOLDER": "data/gestures",
-        "OUTPUT_FILE":"data/gestures_dataset.csv",
+        "DATASET_TRAINING_PATH": "data/gestures_dataset_train.csv",
+        "DATASET_VAL_PATH": "data/gestures_dataset_val.csv",
         "KEY_BINDING_OUTPUT_FILE":"config/key_bindings_default.json"
     },
     "HAND_GESTURE_CONFIG":
@@ -15,16 +16,15 @@
     "NEURAL_NETWORK_CONFIG":
     {
         "MODEL_PATH": "models/gesture_model.h5",
-        "DATASET_PATH": "data/gestures_dataset.csv",
         "MODEL_PERFORMANCE_PATH": "models/models_performance.csv"
     },
     "HYPERPARAMETER_CONFIG": 
     {
         "DENSE_LAYERS": [[128, 64, 32], [256, 128, 64]],
         "ACTIVATION": ["relu", "tanh", "sigmoid"],
-        "DROPOUT_RATE": [0.2, 0.4],
+        "DROPOUT_RATE": [0.2, 0.35, 0.5],
         "LEARNING_RATE": [0.01, 0.001],
-        "BATCH_SIZE": [32, 64],
-        "EPOCHS": [100]
+        "BATCH_SIZE": [32,64],
+        "EPOCHS": [50]
     }
 }
