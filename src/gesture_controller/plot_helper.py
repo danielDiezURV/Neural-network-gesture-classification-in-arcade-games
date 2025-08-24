@@ -35,11 +35,9 @@ class PlotHelper:
         df['ACTIVATION'] = hp.apply(lambda d: d.get('ACTIVATION'))
         df['DROPOUT_RATE'] = hp.apply(lambda d: d.get('DROPOUT_RATE'))
         df['LEARNING_RATE'] = hp.apply(lambda d: d.get('LEARNING_RATE'))
-        df['DENSE_LAYERS'] = hp.apply(lambda d: d.get('DENSE_LAYERS'))
         df['BATCH_SIZE'] = hp.apply(lambda d: d.get('BATCH_SIZE'))
-        
-
-
+        df['DENSE_LAYERS'] = hp.apply(lambda d: d.get('DENSE_LAYERS'))
+    
         df['layers_str'] = df['DENSE_LAYERS'].apply(self._layers_to_str)
         return df
 
@@ -118,19 +116,11 @@ class PlotHelper:
     def plot_val_loss_by_parameter(self, df):
         df = self._parse_hyperparameters(df)
         
-        params_to_plot = ['ACTIVATION', 'DENSE_LAYERS', 'DROPOUT_RATE', 'LEARNING_RATE', 'BATCH_SIZE']
-
-        val_losses = pd.to_numeric(df['val_loss'], errors='coerce').dropna()
-        if val_losses.empty:
-            print("No validation loss data to plot.")
-            return
+        params_to_plot = ['DENSE_LAYERS', 'ACTIVATION', 'DROPOUT_RATE', 'LEARNING_RATE', 'BATCH_SIZE']
 
         # Create a single figure with multiple subplots (one for each parameter)
         n = len(params_to_plot)
         fig, axes = plt.subplots(nrows=n, ncols=1, figsize=(10, 5 * n))
-        if n == 1:
-            axes = [axes] # Make sure axes is always a list
-
         fig.suptitle('Validation Loss by Hyperparameter', fontsize=16, y=1.0)
 
         # Iterate through each hyperparameter and render its subplot
@@ -164,7 +154,7 @@ class PlotHelper:
             ax.invert_xaxis()
             ax.grid(True, axis='x', linestyle='--', alpha=0.3)
 
-        plt.tight_layout(rect=[0, 0, 1, 0.98], h_pad=4.0) # Increase vertical padding
+        plt.tight_layout(rect=[0, 0, 1, 0.98], h_pad=4.0) 
         plt.show()
 
 
@@ -243,9 +233,6 @@ class PlotHelper:
         ax.scatter(epochs[best_idx], best_val, color='blue', s=50, zorder=5, label=label)
         ax.legend(loc='lower right')
         
-        if np.min(curve) > 0.9:
-            ax.set_ylim(max(0.9, np.min(curve) - 0.01), min(1.0, np.max(curve) + 0.01))
-
         plt.tight_layout()
         plt.show()
 

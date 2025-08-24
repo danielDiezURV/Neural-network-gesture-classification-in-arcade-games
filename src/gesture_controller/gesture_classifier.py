@@ -1,9 +1,9 @@
-import numpy as np
-import tensorflow as tf
+from tensorflow.keras.layers import Dense, Dropout, Input # type: ignore
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.optimizers import Adam # type: ignore
 from src.gesture_controller.app_config import AppConfig
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Input
-from tensorflow.keras.optimizers import Adam 
+import tensorflow as tf
+import numpy as np
 import os
 
 class GestureClassifier:
@@ -134,3 +134,13 @@ class GestureClassifier:
 
         return predicted_class
         
+    # Predicts gesture IDs for the given dataset.
+    #
+    # Args:
+    #     X_data (np.ndarray): Input data with shape (n_samples, n_features).
+    #
+    # Returns:
+    #     np.ndarray: Predicted gesture IDs.
+    def evaluate(self, X_data):
+        probabilities = self.model.predict(X_data, verbose=0)
+        return np.argmax(probabilities, axis=1)
