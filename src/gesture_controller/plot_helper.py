@@ -174,30 +174,39 @@ class PlotHelper:
     #
     # Args:
     #     df_winner (pd.Series): A row from the performance DataFrame for the best model.
-    def plot_val_loss_in_epochs(self, df_winner):
+    def plot_loss_in_epochs(self, df_winner):
         history = self._parse_history(df_winner['history'])
-        curve = history.get('val_loss')
+        curve_training = history.get('loss')
+        curve_val = history.get('val_loss')
 
-        curve = [float(v) for v in curve]
-        epochs = np.arange(1, len(curve) + 1)
+        curve_training = [float(v) for v in curve_training]
+        curve_val = [float(v) for v in curve_val]
+        epochs = np.arange(1, len(curve_training) + 1)
         
-        best_idx = int(np.argmin(curve))
-        best_val = curve[best_idx]
-        label = f"Min: {best_val:.3e} @ epoch {epochs[best_idx]}"
-        title = 'Validation Loss across Epochs'
+        best_idx_training = int(np.argmin(curve_training))
+        best_val_training = curve_training[best_idx_training]
+        
+        best_idx_val = int(np.argmin(curve_val))
+        best_val_val = curve_val[best_idx_val]
+        
+        label_training = f"Training Min: {best_val_training:.3e} @ epoch {epochs[best_idx_training]}"
+        label_val = f"Validation Min: {best_val_val:.3e} @ epoch {epochs[best_idx_val]}"
+        title = 'Training and Validation Loss across Epochs'
 
         fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(epochs, curve, marker='o', markersize=3, linewidth=1.5, color='tab:blue')
+        ax.plot(epochs, curve_training, marker='o', markersize=3, linewidth=1.5, color='tab:blue', label='Training Loss')
+        ax.plot(epochs, curve_val, marker='s', markersize=3, linewidth=1.5, color='tab:orange', label='Validation Loss')
         
         ax.set_yscale('log')
-        ylabel = "Validation Loss (log scale)"
+        ylabel = "Loss (log scale)"
 
         ax.set_xlabel('Epoch')
         ax.set_ylabel(ylabel)
         ax.set_title(title)
         ax.grid(True, linestyle='--', alpha=0.3)
         
-        ax.scatter(epochs[best_idx], best_val, color='red', s=50, zorder=5, label=label)
+        ax.scatter(epochs[best_idx_training], best_val_training, color='darkblue', s=50, zorder=5, label=label_training)
+        ax.scatter(epochs[best_idx_val], best_val_val, color='darkorange', s=50, zorder=5, label=label_val)
         ax.legend(loc='best')
         
         plt.tight_layout()
@@ -208,29 +217,38 @@ class PlotHelper:
     #
     # Args:
     #     df_winner (pd.Series): A row from the performance DataFrame for the best model.
-    def plot_val_accuracy_in_epochs(self, df_winner):
+    def plot_accuracy_in_epochs(self, df_winner):
         history = self._parse_history(df_winner['history'])
-        curve = history.get('val_accuracy')
-
-        curve = [float(v) for v in curve]
-        epochs = np.arange(1, len(curve) + 1)
+        curve_training = history.get('accuracy')
+        curve_val = history.get('val_accuracy')
         
-        best_idx = int(np.argmax(curve))
-        best_val = curve[best_idx]
-        label = f"Max: {best_val:.4f} @ epoch {epochs[best_idx]}"
-        title = 'Validation Accuracy across Epochs'
+        curve_training = [float(v) for v in curve_training]
+        curve_val = [float(v) for v in curve_val]
+        epochs = np.arange(1, len(curve_training) + 1)
+        
+        best_idx_training = int(np.argmax(curve_training))
+        best_val_training = curve_training[best_idx_training]
+        
+        best_idx_val = int(np.argmax(curve_val))
+        best_val_val = curve_val[best_idx_val]
+        
+        label_training = f"Training Max: {best_val_training:.4f} @ epoch {epochs[best_idx_training]}"
+        label_val = f"Validation Max: {best_val_val:.4f} @ epoch {epochs[best_idx_val]}"
+        title = 'Training and Validation Accuracy across Epochs'
 
         fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(epochs, curve, marker='o', markersize=3, linewidth=1.5, color='tab:green')
+        ax.plot(epochs, curve_training, marker='o', markersize=3, linewidth=1.5, color='tab:green', label='Training Accuracy')
+        ax.plot(epochs, curve_val, marker='s', markersize=3, linewidth=1.5, color='tab:orange', label='Validation Accuracy')
         
-        ylabel = "Validation Accuracy"
+        ylabel = "Accuracy"
 
         ax.set_xlabel('Epoch')
         ax.set_ylabel(ylabel)
         ax.set_title(title)
         ax.grid(True, linestyle='--', alpha=0.3)
         
-        ax.scatter(epochs[best_idx], best_val, color='blue', s=50, zorder=5, label=label)
+        ax.scatter(epochs[best_idx_training], best_val_training, color='darkgreen', s=50, zorder=5, label=label_training)
+        ax.scatter(epochs[best_idx_val], best_val_val, color='darkorange', s=50, zorder=5, label=label_val)
         ax.legend(loc='lower right')
         
         plt.tight_layout()
