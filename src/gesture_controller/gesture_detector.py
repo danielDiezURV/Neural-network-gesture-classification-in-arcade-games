@@ -26,7 +26,7 @@ class GestureDetector:
     #
     # Returns:
     #     The processed image with hand landmarks drawn.
-    def process_frame(self, image'):
+    def process_frame(self, image):
         rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(rgb_image)
 
