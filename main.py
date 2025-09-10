@@ -60,7 +60,7 @@ def main():
                 left_hand_changed = (gesture_id_left != prev_left_gesture)
 
                 if right_hand_changed or left_hand_changed:
-                    os.system('cls' if os.name == 'nt' else 'clear')
+                    os.system('clear')
                     
                     # Handle right hand gesture changes
                     if right_hand_changed and gesture_id_right is not None:
